@@ -1,0 +1,68 @@
+<form class="form contact-inchoo" action="<?php echo $block->getUrl('returnorder/customer/save'); ?>" id="contact-form" method="post" data-hasrequired="* Required Fields" data-mage-init='{"validation":{}}' enctype='multipart/form-data'>
+	<fieldset class="fieldset">
+		<div class="field name required">
+			<label class="label" for="order_id"><span>Order ID</span></label>
+			<div class="control">
+                            <select class="required" name="order_id" id="selectOrder">
+                                <option value="">Select</option>
+                                <?php $orders = $this->getOrders(); ?>
+                                <?php foreach($orders as $order){ ?>
+                                <option value="<?= $order->getIncrementId() ?>"><?= $order->getIncrementId() ?></option>
+                                <?php } ?>
+                            </select>
+			</div>
+		</div>
+	        <div class="field name required">
+			<label class="label" for="product_sku"><span>Product(s)</span></label>
+                        <div class="control">
+                            <select style="height:90px;" class="required" id='selectProduct' multiple="" name="product_name[]">
+                            </select>
+                        </div>
+		</div>
+        	<div class="field name">
+            		<label class="label" for="product_image"><span>Image</span></label>
+            		<div class="control">
+                		<input type="file" name="product_image" id="product_image" />
+            		</div>
+        	</div>
+        	<div class="field name required">
+            		<label class="label" for="reason"><span>Reason</span></label>
+            		<div class="control">
+                                <select class="required" name="reason">
+                                    <option value="">Select</option>
+                                    <?php $reasons = $this->getReasons(); ?>
+                                    <?php foreach($reasons as $reason){ ?>
+                                    <option value="<?= $reason['value'] ?>"><?= $reason['label'] ?></option>
+                                    <?php } ?>
+                            </select>
+            		</div>
+        	</div>
+                <div class="field name required">
+            		<label class="label" for="customer_message"><span>Message</span></label>
+            		<div class="control">
+                            <textarea name="customer_message" id="customer_message" title="customer_message" rows="4" class="input-text required"></textarea>
+            		</div>
+        	</div>
+	</fieldset>
+	<div class="actions-toolbar">
+	        <div class="primary">
+            		<button type="submit" title="Submit" class="action submit primary">
+                		<span>Submit</span>
+            		</button>
+        	</div>
+    	</div>
+</form>
+ 
+<?php
+$formData = [
+    'ajaxUrl' => $this->getUrl().'returnorder/customer/orderdetails',
+];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "returnrequire": <?php /* @noEscape */ echo $serializedFormData; ?>
+        }
+    }
+</script>

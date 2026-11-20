@@ -1,0 +1,49 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_returns = $block->getReturns(); ?>
+<?php if ($_returns && count($_returns)): ?>
+    <div class="table-wrapper returns-history">
+        <table class="data table table-return-items history" id="my-returns-table">
+            <caption class="table-caption"><?= /* @escapeNotVerified */ __('Returns') ?></caption>
+            <thead>
+                <tr>
+                    <th scope="col" class="col id"><?= /* @escapeNotVerified */ __('Requset #') ?></th>
+                    <th scope="col" class="col date"><?= /* @escapeNotVerified */ __('Order #') ?></th>
+                    <th scope="col" class="col shipping"><?= /* @escapeNotVerified */ __('Created') ?></th>
+                    <th scope="col" class="col total"><?= /* @escapeNotVerified */ __('Updated') ?></th>
+                    <th scope="col" class="col status"><?= /* @escapeNotVerified */ __('Status') ?></th>
+                    <th scope="col" class="col actions"><?= /* @escapeNotVerified */ __('Action') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($_returns as $_return): ?>
+                    <tr>
+                        <td data-th="<?= $block->escapeHtml(__('Requset #')) ?>" class="col id"><?= /* @escapeNotVerified */ $_return->getRequestId() ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Order #')) ?>" class="col id"><?= /* @escapeNotVerified */ $_return->getOrderId() ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Created')) ?>" class="col shipping"><?= /* @escapeNotVerified */ date('d. M. Y', strtotime($_return->getCreatedAt())) ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Updated')) ?>" class="col total"><?= /* @escapeNotVerified */ date('d. M. Y', strtotime($_return->getUpdatedAt())) ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Status')) ?>" class="col status"><?= \Ankush\Returnorder\Block\Adminhtml\Returnorder\Grid::getValueArray10()[$_return->getStatus()]['label'] ?> </td>
+                        <td data-th="<?= $block->escapeHtml(__('Actions')) ?>" class="col actions">
+                            <a href="<?= /* @escapeNotVerified */ $block->getViewUrl($_return) ?>" class="action view">
+                                <span><?= /* @escapeNotVerified */ __('View Request') ?></span>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="return-products-toolbar toolbar bottom"><?= $block->getPagerHtml() ?></div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="message info empty"><span><?= /* @escapeNotVerified */ __('You have no return request.') ?></span></div>
+<?php endif ?>
+<input class="action tocart primary" type="button" onclick="location.href='<?= $this->getUrl('returnorder/customer/new'); ?>';" value="Create Return Request" />

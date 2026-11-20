@@ -1,0 +1,73 @@
+
+<div class="order-details-items ordered">
+    <?php $_return = $block->getReturn() ?>
+
+    <div class="order-title">
+        <strong><?= /* @escapeNotVerified */ __('Items Ordered') ?></strong>
+        
+    </div>
+
+<div class="block block-dashboard-info">
+    <div class="block-content">
+        <div class="box box-information">
+            <table>
+
+                <tr>
+                    <td><strong>Product(s)</strong></td>
+                    <td><?= $_return->getProductName() ?></td>
+                </tr>
+                <?php
+                $_objectManager = \Magento\Framework\App\ObjectManager::getInstance(); //instance of\Magento\Framework\App\ObjectManager
+                $storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface'); 
+                $currentStore = $storeManager->getStore();
+                $mediaUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+                $returnImageUrl = $mediaUrl.'/returnImages';
+                ?>
+                <tr>
+                    <td style="vertical-align:middle;"><strong>Image</strong></td>
+                    <td><img src="<?= $returnImageUrl.$_return->getProductImage() ?>" alt="Return Image" /></td>
+                </tr>
+                <tr>
+                    <td><strong>Reason</strong></td>
+                    <td><?= \Ankush\Returnorder\Block\Adminhtml\Returnorder\Grid::getValueArray8()[$_return->getReason()]['label'] ?></td>
+                </tr>
+                <tr>
+                    <td style="vertical-align:middle;"><strong>Message</strong></td>
+                    <td><?= $_return->getCustomerMessage() ?></td>
+                </tr>
+            </table>
+        </div>
+        <div class="box box-newsletter">
+            <table>
+                <tr>
+                    <td><strong>Order ID</strong></td>
+                    <td>#<?= $_return->getOrderId() ?></td>
+                </tr>
+                <tr>
+                    <td><strong>Customer Name</strong></td>
+                    <td><?= $_return->getCustomerName() ?></td>
+                </tr>
+                <tr>
+                    <td><strong>Customer EmailID</strong></td>
+                    <td><?= $_return->getCustomerEmail() ?></td>
+                </tr>
+                <tr>
+                    <td><strong>Created At</strong></td>
+                    <td><?= date('d. M. Y', strtotime($_return->getCreatedAt())) ?></td>
+                </tr>
+                <tr>
+                    <td><strong>Status</strong></td>
+                    <td><?= \Ankush\Returnorder\Block\Adminhtml\Returnorder\Grid::getValueArray10()[$_return->getStatus()]['label'] ?></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+    <div class="actions-toolbar">
+        <div class="secondary">
+            <a class="action back" href="<?= /* @escapeNotVerified */ $block->getBackUrl() ?>">
+                <span><?= /* @escapeNotVerified */ $block->getBackTitle() ?></span>
+            </a>
+        </div>
+    </div>
+</div>
